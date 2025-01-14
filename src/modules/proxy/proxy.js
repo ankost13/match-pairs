@@ -6,6 +6,10 @@ export class Proxy { //для даних
 
     }
 
+    setDefaultIndexes() {
+        this.indexes = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8]
+    }
+
     static getInstance() {
         if (instance == null) {
             instance = new Proxy();
