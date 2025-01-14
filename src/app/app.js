@@ -1,9 +1,11 @@
-import {Application, Assets, Container} from "pixi.js";
+import {Application, Assets, Container, Sprite} from "pixi.js";
 import {manifest} from "../manifest";
 import {GamePreloaderMediator} from "../modules/preloader/mediator";
 import {PreloaderView} from "../modules/preloader/view";
 import {GameMediator} from "./mediator";
 import {SoundsManager} from "../utils/soundsManager";
+import {BgMediator} from "../modules/bg/bgMediator";
+import {BgView} from "../modules/bg/bgView";
 
 export class App extends Application {
 
@@ -21,6 +23,7 @@ export class App extends Application {
 
         this.gameMediator = new GameMediator();
         this.gameMediator.resourcesLoaded();
+        this.registerBg();
     }
 
     async loadAssets() {
@@ -37,6 +40,13 @@ export class App extends Application {
         const parent = new Container();
         this.stage.addChild(parent);
         mediator.initView(PreloaderView, parent);
+    }
+
+    registerBg() {
+        const mediator = new BgMediator();
+        const parent = new Container();
+        this.stage.addChild(parent);
+        mediator.initView(BgView, parent);
     }
 
 
