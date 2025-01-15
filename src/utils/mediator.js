@@ -1,5 +1,6 @@
 import {Proxy} from "../modules/proxy/proxy";
 import {GLOBAL_EMITTER} from "./eventEmitter";
+import {ResizeManager} from "./resizeManager";
 
 export class BaseMediator {
     constructor() {
@@ -8,7 +9,14 @@ export class BaseMediator {
     }
 
     initView(referenceConstructorUI, parent) {
-        this.view = new referenceConstructorUI(parent);
+        const resizeManager = ResizeManager.getInstance();
+        this.view = new referenceConstructorUI(parent, resizeManager.getResizeData());
+        ResizeManager.getInstance().registerUI(this.view);
+
+        setTimeout(() => {
+            const resizeEvent = new Event("resize");
+            window.dispatchEvent(resizeEvent);
+        })
     }
 
     initEmitter() {
