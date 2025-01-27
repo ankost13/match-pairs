@@ -14,7 +14,7 @@ export class FieldView extends View {
         this.addChild(this.parentForSquare);
         this.collectionSquare = [];
         const startPositionX = 0;
-        const startPositionY  = 0;
+        const startPositionY = 0;
         const step = 200;
 
         for (let i = 0; i < 16; i++) {
@@ -28,25 +28,22 @@ export class FieldView extends View {
             this.collectionSquare.push(square);
         }
         setPivotForContainer(this.parentForSquare, .5, .5);
-        console.error(this.size);
-       this.setPositionParentForSquare();
-        console.error(this.parentForSquare.getLocalBounds())
+        this.setPositionParentForSquare();
     }
 
     onResize(size) {
         super.onResize(size);
-        console.error(size.pixelRatio)
-        if (this.size.pixelRatio < 0.75) {
+        if (this.size.pixelRatio < 1) {
             this.parentForSquare.scale = this.size.pixelRatio
-        } else {
-            this.parentForSquare.scale = 1
+        } else if (this.size.pixelRatio > 1) {
+            this.parentForSquare.scale = 1 // TODO придумати
         }
         this.setPositionParentForSquare();
-        console.error(size.pixelRatio)
+
     }
 
     setPositionParentForSquare() {
-        const glPos = this.toGlobal(new Point(this.size.width / 2,this.size.height / 2));
+        const glPos = this.toGlobal(new Point(this.size.width / 2, this.size.height / 2));
         const localPos = this.toLocal(glPos);
         this.parentForSquare.position.set(localPos.x, localPos.y);
     }
