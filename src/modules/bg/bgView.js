@@ -1,5 +1,6 @@
 import {View} from "../../utils/view";
 import {Assets, Sprite} from "pixi.js";
+import {Spine} from "@pixi-spine/runtime-3.7";
 
 export class BgView extends View {
     constructor(parent) {

@@ -3,12 +3,14 @@ let instance = null;
 export class Proxy { //для даних
 
     constructor() {
-
+        this.setDefaultIndexes();
     }
 
     setDefaultIndexes() {
         this.indexes = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8]
     }
+
+
 
     static getInstance() {
         if (instance == null) {
@@ -18,8 +20,8 @@ export class Proxy { //для даних
         return instance;
     }
 
-    shuffle(array) {
-        const newArray = [...array]
+    shuffleIndexes() {
+        const newArray = [...this.indexes]
         const length = newArray.length
 
         for (let start = 0; start < length; start++) {
@@ -29,7 +31,7 @@ export class Proxy { //для даних
             newArray.push(...randomItem)
         }
 
-        return newArray
+        this.indexes = newArray
     }
 }
 
