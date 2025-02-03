@@ -46,7 +46,7 @@ export class FieldView extends View {
                 if (square.inUsed) return;
                 square.inUsed = true;
                 square.interactive = false;
-                this.addAnimationToElement({element: square, goTo1: 0, goTo2: 1, textureName: "c" + square.id});
+                this.addAnimationScaleToElement({element: square, goTo1: 0, goTo2: 1, textureName: "c" + square.id});
                 square.alpha = 1;
                 this.numberOpenSquare = ++this.numberOpenSquare;
                 if (this.numberOpenSquare === 1) {
@@ -58,8 +58,7 @@ export class FieldView extends View {
         });
     }
 
-    //element, goTo1, goTo2, textureName
-    addAnimationToElement(data) {
+    addAnimationScaleToElement(data) {
         gsap.timeline()
             .to(data.element.scale, {
                 x: data.goTo1,
@@ -74,17 +73,37 @@ export class FieldView extends View {
             })
     }
 
+    addAnimationAngelToElement(element) {
+        gsap.timeline()
+            .to(element, {
+                rotation: -.1,
+                duration: .2,
+            })
+            .to(element, {
+                rotation: .1,
+                duration: .2,
+            })
+            .to(element, {
+                rotation: 0,
+                duration: .2,
+            })
+    }
+
+
+
     async checkPairs(data) {
         if (this.numberOpenSquare === 2) {
             this.setInteractiveSquare(false);
             if (data.previousSquare.id === data.square.id) {
                 await setAnimationTimeoutSync(0.7);
                 this.numberOpenSquare = 0;
+                this.addAnimationAngelToElement(data.square);
+                this.addAnimationAngelToElement(data.previousSquare);
                 this.setInteractiveSquare(true);
             } else {
                 await setAnimationTimeoutSync(0.7)
-                this.addAnimationToElement({element: data.square, goTo1: 0, goTo2: 1, textureName: "card"});
-                this.addAnimationToElement({element: data.previousSquare, goTo1: 0, goTo2: 1, textureName: "card"});
+                this.addAnimationScaleToElement({element: data.square, goTo1: 0, goTo2: 1, textureName: "card"});
+                this.addAnimationScaleToElement({element: data.previousSquare, goTo1: 0, goTo2: 1, textureName: "card"});
                 data.square.interactive = true;
                 data.previousSquare.interactive = true;
                 data.square.inUsed = false;

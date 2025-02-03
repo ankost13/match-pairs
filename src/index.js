@@ -5,9 +5,10 @@ await app.init({
     background: '#123',
     width: window.innerWidth,
     height: window.innerHeight,
-    // resolution: window.devicePixelRatio || 1,
     autoResize: true,
     resizeTo: window,
+    resolution: 1,
+    autoDensity: true,
 });
 
 document.body.appendChild(app.canvas);

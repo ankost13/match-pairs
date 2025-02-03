@@ -27,4 +27,8 @@ export class View extends Container {
     onResize(size) {
         this.size = size;
     }
+
+    isLandscape() {
+        return this.size.width > this.size.height
+    }
 }

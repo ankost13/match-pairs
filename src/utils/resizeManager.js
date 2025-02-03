@@ -23,14 +23,16 @@ export class ResizeManager {
 
     onResize() {
         window.addEventListener("resize", (e) => {
-            this.resizeData = {
-                width: e.currentTarget.innerWidth,
-                height: e.currentTarget.innerHeight,
-                pixelRatio: e.currentTarget.innerWidth / e.currentTarget.innerHeight
-            }
-            this.listUI.forEach(ui => {
-                ui.onResize(this.resizeData);
-            });
+            setTimeout( ()=> {
+                this.resizeData = {
+                    width: screen.width,
+                    height: screen.height,
+                    pixelRatio: Math.min(screen.width / screen.height, screen.height / screen.width)
+                }
+                this.listUI.forEach(ui => {
+                    ui.onResize(this.resizeData);
+                });
+            }, 0)
         });
 
     }
