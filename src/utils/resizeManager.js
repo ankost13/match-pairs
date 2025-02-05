@@ -25,9 +25,9 @@ export class ResizeManager {
         window.addEventListener("resize", (e) => {
             setTimeout( ()=> {
                 this.resizeData = {
-                    width: screen.width,
-                    height: screen.height,
-                    pixelRatio: Math.min(screen.width / screen.height, screen.height / screen.width)
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    pixelRatio: window.innerWidth / window.innerHeight
                 }
                 this.listUI.forEach(ui => {
                     ui.onResize(this.resizeData);
