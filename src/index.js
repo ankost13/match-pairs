@@ -5,6 +5,7 @@ await app.init({
     background: '#123',
     width: window.innerWidth,
     height: window.innerHeight,
+    autoDensity: true
 });
 window.addEventListener("resize", () => {
     app.renderer.resize(window.innerWidth, window.innerHeight);

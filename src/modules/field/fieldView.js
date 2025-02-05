@@ -127,8 +127,7 @@ export class FieldView extends View {
         if (this.size.pixelRatio < 1) {
             this.parentForSquare.scale.set(this.size.pixelRatio * .8)
         } else if (this.size.pixelRatio > 1) {
-            console.error(this.size.pixelRatio)
-            this.parentForSquare.scale = 1 // TODO придумати
+            this.parentForSquare.scale = this.parentForSquare.width / this.parentForSquare.height / this.size.pixelRatio / 1.1
         }
         this.setPositionParentForSquare();
     }
