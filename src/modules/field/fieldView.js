@@ -53,7 +53,7 @@ export class FieldView extends View {
                     previousSquare = square;
                 }
                 this.checkPairs({square: square, previousSquare: previousSquare});
-
+                this.soundsManager.play("click", 0.02);
             });
         });
     }
@@ -100,6 +100,7 @@ export class FieldView extends View {
                 this.addAnimationAngelToElement(data.square);
                 this.addAnimationAngelToElement(data.previousSquare);
                 this.setInteractiveSquare(true);
+                this.soundsManager.play("rightPair", 0.02);
             } else {
                 await setAnimationTimeoutSync(0.7)
                 this.addAnimationScaleToElement({element: data.square, goTo1: 0, goTo2: 1, textureName: "card"});
@@ -124,10 +125,11 @@ export class FieldView extends View {
 
     onResize(size) {
         super.onResize(size);
+        const sof = this.isMobile() ? 1.05 : 1.4
         if (this.size.pixelRatio < 1) {
-            this.parentForSquare.scale.set(this.size.pixelRatio * .8)
+            this.parentForSquare.scale = this.size.pixelRatio / sof;
         } else if (this.size.pixelRatio > 1) {
-            this.parentForSquare.scale = this.parentForSquare.width / this.parentForSquare.height / this.size.pixelRatio / 1.1
+            this.parentForSquare.scale = 1 / (this.size.pixelRatio / sof);
         }
         this.setPositionParentForSquare();
     }

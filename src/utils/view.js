@@ -31,4 +31,8 @@ export class View extends Container {
     isLandscape() {
         return this.size.width > this.size.height
     }
+
+    isMobile() {
+        return /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+    }
 }
