@@ -2,6 +2,7 @@ import {View} from "../../utils/view";
 import {Assets, Sprite} from "pixi.js";
 
 export class BgView extends View {
+
     constructor(parent) {
         super(parent);
         this.addBg();
@@ -21,5 +22,10 @@ export class BgView extends View {
 
     playBgSound() {
         this.soundsManager.play("backgroundSound", 0.1);
+    }
+
+    onResize(size) {
+        super.onResize(size);
+        this.scale.set(Math.max(size.width / size.height, size.height / size.width) / 2);
     }
 }
