@@ -74,6 +74,16 @@ export class App extends Application {
                 volume: 0.01,
                 loop: true,
             },
+            {
+                 name: "click",
+                 src: "assets/sounds/click.mp3",
+                 volume: 0.01,
+            },
+            {
+                name: "rightPair",
+                src: "assets/sounds/rightPair.mp3",
+                volume: 0.01,
+            },
             // {
             //     name: "win",
             //     src: "assets/sounds/win.mp3",
