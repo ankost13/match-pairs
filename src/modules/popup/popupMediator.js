@@ -8,7 +8,7 @@ export class PopupMediator extends BaseMediator{
     }
 
     catchOutNotification() {
-        this.subscribeToNotification(PopupNotification.SHOW_POPUP, (data) => {
+        this.subscribeToNotification(PopupNotification.SHOW_POPUP, () => {
            this.view.showPopup();
            this.view.addTextOnPopup("You are win!\nYou are win!");
         })
