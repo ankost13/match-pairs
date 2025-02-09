@@ -14,6 +14,8 @@ export const manifest = {
                 c6: "assets/img/06.jpg",
                 c7: "assets/img/07.jpg",
                 c8: "assets/img/08.jpg",
+                popup: "assets/img/popup.png",
+                bitMapFont: "https://pixijs.com/assets/bitmap-font/desyrel.xml"
             },
         },
     ]

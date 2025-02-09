@@ -2,12 +2,14 @@ import {View} from "../../utils/view";
 import {Assets, Container, Point, Sprite} from "pixi.js";
 import {setAnimationTimeoutSync, setPivotForContainer} from "../../utils/helperFunction";
 import gsap from "gsap";
+import {GameFieldNotification} from "./fieldNotification";
 
 export class FieldView extends View {
     constructor(parent, resizeData) {
         super(parent, resizeData);
         this.collectionSquare = [];
         this.numberOpenSquare = 0;
+        this.numberOpenPairs = 0;
     }
 
     createInteractiveSquare(indexes) {
@@ -100,6 +102,11 @@ export class FieldView extends View {
                 this.addAnimationAngelToElement(data.square);
                 this.addAnimationAngelToElement(data.previousSquare);
                 this.setInteractiveSquare(true);
+                this.numberOpenPairs = ++this.numberOpenPairs;
+                if (this.numberOpenPairs === 8) {
+                    this.notifyToMediator(GameFieldNotification.RESTART_GAME);
+                }
+
                 this.soundsManager.play("rightPair", 0.02);
             } else {
                 await setAnimationTimeoutSync(0.7)
@@ -133,4 +140,17 @@ export class FieldView extends View {
         }
         this.setPositionParentForSquare();
     }
+
+    restartGame(indexes) {
+        indexes.forEach((item, i) => {
+            const square = this.collectionSquare[i];
+            square.id = item;
+            square.texture = Assets.get("card");
+            square.inUsed = false;
+            square.interactive = true;
+        })
+        console.error(indexes)
+        this.numberOpenPairs = 0;
+    }
+
 }
