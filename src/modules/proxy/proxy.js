@@ -33,5 +33,9 @@ export class Proxy { //для даних
 
         this.indexes = newArray
     }
+
+    rememberResults(data) {
+        localStorage.bestResult = data;
+    }
 }
 

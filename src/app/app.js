@@ -94,11 +94,6 @@ export class App extends Application {
                 src: "assets/sounds/rightPair.mp3",
                 volume: 0.01,
             },
-            // {
-            //     name: "win",
-            //     src: "assets/sounds/win.mp3",
-            //     volume: 0.1,
-            // },
         ];
         const soundsManager = SoundsManager.getInstance()
         await soundsManager.loadSounds(sounds);

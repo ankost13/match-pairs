@@ -35,7 +35,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html', // Ваш HTML файл
+            template: './index.html', // Ваш HTML файл
         }),
         new CopyWebpackPlugin({
             patterns: [

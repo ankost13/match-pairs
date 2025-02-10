@@ -51,7 +51,6 @@ export class PopupView extends View {
             anchor: 0.5,
         });
         this.massageText.position.y = this.popupHeight / 2;
-
         this.popup.addChild(this.massageText);
     }
 
@@ -67,15 +66,13 @@ export class PopupView extends View {
                 ease: "expo.out",
                 duration: .5,
             })
-
     }
 
     playOutAnimation() {
         gsap.to(this.popup.scale, {
-                y: 0,
-                ease: "expo.out",
-                duration: .6,
-            })
-
+            y: 0,
+            ease: "expo.out",
+            duration: .6,
+        })
     }
 }

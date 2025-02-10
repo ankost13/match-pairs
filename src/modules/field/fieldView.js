@@ -1,5 +1,5 @@
 import {View} from "../../utils/view";
-import {Assets, Container, Point, Sprite} from "pixi.js";
+import {Assets, Container, Text, Point, Sprite} from "pixi.js";
 import {setAnimationTimeoutSync, setPivotForContainer} from "../../utils/helperFunction";
 import gsap from "gsap";
 import {GameFieldNotification} from "./fieldNotification";
@@ -10,6 +10,7 @@ export class FieldView extends View {
         this.collectionSquare = [];
         this.numberOpenSquare = 0;
         this.numberOpenPairs = 0;
+        this.createScoreboard();
     }
 
     createInteractiveSquare(indexes) {
@@ -122,13 +123,37 @@ export class FieldView extends View {
         }
     }
 
-
     setPositionParentForSquare() {
         const glPos = this.toGlobal(new Point(this.size.width / 2, this.size.height / 2));
         const localPos = this.toLocal(glPos);
         this.parentForSquare.position.set(localPos.x, localPos.y);
     }
 
+    createScoreboard() {
+        this.scoreboard = new Sprite({})
+        // this.scoreboard.position.set();
+        this.scoreboard.position.set(this.size.width * 0.86, this.size.height * 0.08);
+        this.createTextScoreboard("SCOREBOARD", 0, 0);
+
+        // this.xStatistic = this.createTextScoreboard("X: " + (localStorage.getItem("x") || 0), 0,100);
+        // this.oStatistic = this.createTextScoreboard("O: " + (localStorage.getItem("o") || 0), 0,-50);
+        // this.drawStatistic = this.createTextScoreboard("DROW: " + (localStorage.getItem("draw") || 0), 180,-200);
+        this.addChild(this.scoreboard);
+    }
+
+    createTextScoreboard(text, posX = 0, posY = 200) {
+        const massageText = new Text( text,{
+            fontFamily : 'Arial',
+            fontSize: 20,
+            fill: '#112558',
+        });
+        massageText.position.x = -posX;
+        massageText.position.y = -posY;
+        massageText.anchor = 0.5;
+        this.scoreboard.addChild(massageText);
+
+        return massageText;
+    }
 
     onResize(size) {
         super.onResize(size);
