@@ -29,7 +29,7 @@ export class PopupView extends View {
     async showPopup() {
         this.popup.visible = true;
         this.playInAnimation();
-        await setAnimationTimeoutSync(3);
+        await setAnimationTimeoutSync(5);
         this.playOutAnimation();
         await setAnimationTimeoutSync(.7);
         this.popup.visible = false;

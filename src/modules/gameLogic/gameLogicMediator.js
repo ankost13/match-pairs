@@ -11,7 +11,6 @@ export class GameLogicMediator extends BaseMediator {
     startGame() {
         this.proxy.shuffleIndexes();
         this.sendNotification(GameFieldNotification.SHUFFLE_INDEXES, this.proxy.indexes);
-        console.error(this.proxy.indexes)
     }
 
 }

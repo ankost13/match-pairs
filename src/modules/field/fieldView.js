@@ -10,6 +10,7 @@ export class FieldView extends View {
         this.collectionSquare = [];
         this.numberOpenSquare = 0;
         this.numberOpenPairs = 0;
+        this.numberSteps = 0;
         this.createScoreboard();
     }
 
@@ -51,6 +52,8 @@ export class FieldView extends View {
                 square.interactive = false;
                 this.addAnimationScaleToElement({element: square, goTo1: 0, goTo2: 1, textureName: "c" + square.id});
                 square.alpha = 1;
+                this.numberSteps = ++this.numberSteps;
+                this.updateMomentDataOnScoreboard();
                 this.numberOpenSquare = ++this.numberOpenSquare;
                 if (this.numberOpenSquare === 1) {
                     previousSquare = square;
@@ -66,7 +69,7 @@ export class FieldView extends View {
             .to(data.element.scale, {
                 x: data.goTo1,
                 duration: .3,
-                onComplete: ()=> {
+                onComplete: () => {
                     data.element.texture = Assets.get(data.textureName);
                 }
             })
@@ -93,7 +96,6 @@ export class FieldView extends View {
     }
 
 
-
     async checkPairs(data) {
         if (this.numberOpenSquare === 2) {
             this.setInteractiveSquare(false);
@@ -105,14 +107,19 @@ export class FieldView extends View {
                 this.setInteractiveSquare(true);
                 this.numberOpenPairs = ++this.numberOpenPairs;
                 if (this.numberOpenPairs === 8) {
-                    this.notifyToMediator(GameFieldNotification.RESTART_GAME);
+                    this.notifyToMediator(GameFieldNotification.GET_DATA_SCORE, this.numberSteps);
+                    this.notifyToMediator(GameFieldNotification.RESTART_GAME, this.numberSteps)
                 }
-
                 this.soundsManager.play("rightPair", 0.02);
             } else {
                 await setAnimationTimeoutSync(0.7)
                 this.addAnimationScaleToElement({element: data.square, goTo1: 0, goTo2: 1, textureName: "card"});
-                this.addAnimationScaleToElement({element: data.previousSquare, goTo1: 0, goTo2: 1, textureName: "card"});
+                this.addAnimationScaleToElement({
+                    element: data.previousSquare,
+                    goTo1: 0,
+                    goTo2: 1,
+                    textureName: "card"
+                });
                 data.square.interactive = true;
                 data.previousSquare.interactive = true;
                 data.square.inUsed = false;
@@ -131,19 +138,30 @@ export class FieldView extends View {
 
     createScoreboard() {
         this.scoreboard = new Sprite({})
-        // this.scoreboard.position.set();
         this.scoreboard.position.set(this.size.width * 0.86, this.size.height * 0.08);
         this.createTextScoreboard("SCOREBOARD", 0, 0);
-
-        // this.xStatistic = this.createTextScoreboard("X: " + (localStorage.getItem("x") || 0), 0,100);
-        // this.oStatistic = this.createTextScoreboard("O: " + (localStorage.getItem("o") || 0), 0,-50);
-        // this.drawStatistic = this.createTextScoreboard("DROW: " + (localStorage.getItem("draw") || 0), 180,-200);
+        this.bestResult = this.createTextScoreboard("BestResult: " + localStorage.getItem("bestResult"), 0, -30);
+        this.momentNumberSteps = this.createTextScoreboard("Steps: " + this.numberSteps, 0, -60);
         this.addChild(this.scoreboard);
     }
 
+    updateMomentDataOnScoreboard() {
+        if (this.momentNumberSteps.text !== "Steps: " + this.numberSteps) {
+            this.momentNumberSteps.text = "Steps: " + this.numberSteps;
+            this.animationTextOnScoreboard(this.momentNumberSteps);
+        }
+    }
+
+    updateStatisticOnScoreboard() {
+        if (this.bestResult.text !== "BestResult: " + localStorage.getItem("bestResult") || 0) {
+            this.bestResult.text = "BestResult: " + localStorage.getItem("bestResult");
+            this.animationTextOnScoreboard(this.bestResult);
+        }
+    }
+
     createTextScoreboard(text, posX = 0, posY = 200) {
-        const massageText = new Text( text,{
-            fontFamily : 'Arial',
+        const massageText = new Text(text, {
+            fontFamily: 'Arial',
             fontSize: 20,
             fill: '#112558',
         });
@@ -151,8 +169,23 @@ export class FieldView extends View {
         massageText.position.y = -posY;
         massageText.anchor = 0.5;
         this.scoreboard.addChild(massageText);
-
         return massageText;
+    }
+
+    animationTextOnScoreboard (partOfText) {
+        gsap.to(partOfText.scale, {
+            duration: .5,
+            x: 1.4,
+            y: 1.4,
+
+            onComplete: ()=> {
+                gsap.to(partOfText.scale, {
+                    duration: .5,
+                    x: 1,
+                    y: 1,
+                })
+            }
+        })
     }
 
     onResize(size) {
@@ -174,8 +207,10 @@ export class FieldView extends View {
             square.inUsed = false;
             square.interactive = true;
         })
-        console.error(indexes)
         this.numberOpenPairs = 0;
+        this.numberSteps = 0;
+        this.updateStatisticOnScoreboard();
+        this.updateMomentDataOnScoreboard();
     }
 
 }
