@@ -1,5 +1,6 @@
 import {View} from "../../utils/view";
 import {Assets, Sprite} from "pixi.js";
+import {SpineCustom} from "../../utils/spine";
 
 export class BgView extends View {
 
@@ -8,6 +9,7 @@ export class BgView extends View {
         this.addBg();
         this.position.set(window.innerWidth / 2, window.innerHeight / 2);
         this.playBgSound();
+        this.addTest();
     }
 
     addBg() {
@@ -18,6 +20,20 @@ export class BgView extends View {
             scale: 0.8,
         })
         this.addChild(this.bg);
+    }
+
+    addTest() {
+        const spine = new SpineCustom({
+            spineData: "spineboy",
+            scale: 1,
+            parent: this,
+            position: {
+                x: 0,
+                y: -400,
+            }
+        })
+
+        spine.playAnimation(0, "Win", true)
     }
 
     playBgSound() {

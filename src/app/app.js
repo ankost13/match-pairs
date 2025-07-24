@@ -11,6 +11,7 @@ import {FieldView} from "../modules/field/fieldView";
 import {GameLogicMediator} from "../modules/gameLogic/gameLogicMediator";
 import {PopupMediator} from "../modules/popup/popupMediator";
 import {PopupView} from "../modules/popup/popupView";
+import {AssetLoader} from "../utils/loader";
 
 export class App extends Application {
 
@@ -35,12 +36,10 @@ export class App extends Application {
     }
 
     async loadAssets() {
-        if (!Object.keys(manifest.bundles[0]).length) return;
-
-        await Assets.init({manifest});
-        for (const bundle of manifest.bundles) {
-            await Assets.loadBundle(bundle.name);
-        }
+        const loader = new AssetLoader()
+        window.loader = loader;
+        //await loader.loadPreloaderAssets(manifest);
+        await loader.loadAssets(manifest);
     }
 
     registerPreloader() {
