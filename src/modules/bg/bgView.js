@@ -9,7 +9,7 @@ export class BgView extends View {
         this.addBg();
         this.position.set(window.innerWidth / 2, window.innerHeight / 2);
         this.playBgSound();
-        this.addTest();
+        // this.addTest();
     }
 
     addBg() {
